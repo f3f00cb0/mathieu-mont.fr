@@ -1,0 +1,39 @@
+# docker-compose de PRODUCTION pour Dokploy auto-hébergé
+#
+# Dokploy fournit déjà Traefik + Let's Encrypt et un réseau partagé
+# nommé "dokploy-network". On s'y branche et on déclare le routage
+# via les labels Traefik ci-dessous.
+#
+# >>> À ADAPTER : remplace mathieu-mont.fr par ton vrai domaine si besoin.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mathieu-mont-fr:latest
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+
+      # Routeur HTTPS
+      - traefik.http.routers.mathieu-mont.rule=Host(`mathieu-mont.fr`) || Host(`www.mathieu-mont.fr`)
+      - traefik.http.routers.mathieu-mont.entrypoints=websecure
+      - traefik.http.routers.mathieu-mont.tls=true
+      - traefik.http.routers.mathieu-mont.tls.certresolver=letsencrypt
+
+      # Port interne du conteneur
+      - traefik.http.services.mathieu-mont.loadbalancer.server.port=80
+
+      # Redirection www -> domaine nu (le $$ est l'échappement compose d'un $)
+      - traefik.http.middlewares.mm-wwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mm-wwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.mm-wwwredirect.redirectregex.permanent=true
+      - traefik.http.routers.mathieu-mont.middlewares=mm-wwwredirect
+
+networks:
+  dokploy-network:
+    external: true

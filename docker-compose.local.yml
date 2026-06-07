@@ -1,0 +1,13 @@
+# Compose de DÉVELOPPEMENT local (sans Traefik / Dokploy).
+# Lance le site sur http://localhost:8080
+#
+#   docker compose -f docker-compose.local.yml up --build
+#
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: unless-stopped

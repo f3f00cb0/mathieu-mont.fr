@@ -1,0 +1,11 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Docker / build local
+*.log
