@@ -7,7 +7,8 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 ```
 .
 ├── public/
-│   └── index.html            # le site (à éditer librement)
+│   ├── index.html            # le site (à éditer librement)
+│   └── fonts/                # Fraunces + IBM Plex Mono (.woff2, licence OFL)
 ├── nginx.conf                # config nginx : gzip, cache, en-têtes de sécurité, /health
 ├── Dockerfile                # nginx:alpine + le contenu de public/
 ├── docker-compose.yml        # PROD : à utiliser dans Dokploy
@@ -70,11 +71,13 @@ Commit + push, puis **Redeploy** dans Dokploy (ou active l'auto-deploy sur push)
 Le HTML n'est pas mis en cache dur côté nginx, la mise à jour est donc visible
 immédiatement après redéploiement.
 
-## Note RGPD sur les polices
+## Polices (auto-hébergées, RGPD-friendly)
 
-`index.html` charge actuellement Fraunces et IBM Plex Mono depuis Google Fonts
-(CDN). En France, servir Google Fonts depuis leur CDN est juridiquement discuté
-(transfert d'IP vers Google). Pour être tranquille en prod, tu peux héberger les
-polices toi-même : télécharge les `.woff2`, place-les dans `public/fonts/`,
-remplace le `<link>` Google par un `@font-face` local, et ajuste la directive
-`font-src` de la CSP dans `nginx.conf`.
+Les polices Fraunces et IBM Plex Mono sont servies **localement** depuis
+`public/fonts/` (fichiers `.woff2` issus de Fontsource, sous-ensemble latin qui
+couvre tout le français : accents, œ, €, guillemets). Aucun appel à un CDN
+externe, aucun transfert d'IP vers Google : c'est propre côté RGPD et la CSP de
+`nginx.conf` interdit d'ailleurs toute source externe.
+
+Pour changer de police : remplace les `.woff2` dans `public/fonts/`, ajuste les
+règles `@font-face` en tête de `public/index.html`, et c'est tout.
