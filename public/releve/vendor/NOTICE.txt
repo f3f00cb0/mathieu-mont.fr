@@ -1,0 +1,13 @@
+Third-party software bundled for the Relève demo (no CDN at runtime).
+
+pdf.js 4.10.38 — Mozilla Foundation — Apache License 2.0
+  https://github.com/mozilla/pdf.js
+
+Tesseract.js 5.1.1 — Naptha — Apache License 2.0
+  https://github.com/naptha/tesseract.js
+
+tesseract.js-core 5.1.1 (Tesseract OCR, SIMD LSTM wasm) — Apache License 2.0
+  https://github.com/naptha/tesseract.js-core
+
+tessdata_fast `eng` — tesseract-ocr — Apache License 2.0
+  https://github.com/tesseract-ocr/tessdata_fast

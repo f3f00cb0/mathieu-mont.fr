@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relève — Mathieu Mont</title>
+<meta name="description" content="Dossier de réception : FDS CLP/REACH, certificat d'analyse, bon de livraison, plaque constructeur. Extraction dans le navigateur.">
+<meta name="theme-color" content="#f4f1ea">
+<link rel="canonical" href="https://mathieu-mont.fr/releve/">
+<meta property="og:title" content="Relève — dossier de réception">
+<meta property="og:description" content="FDS, certificat d'analyse, bon de livraison, plaque constructeur. Un dossier.">
+<meta property="og:url" content="https://mathieu-mont.fr/releve/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="website">
+<link rel="preload" href="/fonts/fraunces-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/releve/releve.css">
+</head>
+<body>
+  <main class="page tool">
+    <a class="label back" href="/">← Accueil</a>
+    <span class="label">Dossier de réception</span>
+    <h1>Relève</h1>
+    <p class="lede">FDS, certificat d’analyse, bon de livraison, plaque constructeur. On dépose les pièces d’entrée usine, le dossier se remplit. Ici tout tourne dans le navigateur. En production&nbsp;: S3, Textract, Lambda, file d’exceptions.</p>
+
+    <div class="toolbar">
+      <button type="button" class="chip primary" data-load-all>Dossier Estera-42</button>
+      <button type="button" class="chip" data-sample="fds">FDS</button>
+      <button type="button" class="chip" data-sample="coa">COA</button>
+      <button type="button" class="chip" data-sample="bl">BL</button>
+      <button type="button" class="chip" data-sample="plate">Plaque</button>
+      <button type="button" class="chip" data-camera>Photographier</button>
+      <button type="button" class="chip ghost" data-reset>Réinitialiser</button>
+    </div>
+
+    <label class="drop" id="drop">
+      <input id="file" type="file" accept="application/pdf,image/*" hidden>
+      <span class="drop-title">Déposez un PDF ou une photo de plaque</span>
+      <span class="drop-hint">Fiches de données de sécurité, certificats d’analyse, bons de livraison, plaques moteur / pompe. Documents d’exemple fictifs — Gier Chimie, lot L26-0847.</span>
+    </label>
+
+    <p class="status" id="status" hidden></p>
+
+    <section class="pipeline" id="pipeline" hidden>
+      <span class="label">Lecture</span>
+      <ol class="steps" id="steps"></ol>
+    </section>
+
+    <section class="dossier" id="dossier">
+      <header class="dossier-head">
+        <div>
+          <span class="label">Identité</span>
+          <h2 id="product">—</h2>
+          <p class="meta" id="identity-meta">En attente d’un document.</p>
+        </div>
+        <div class="badges" id="badges"></div>
+      </header>
+
+      <div class="pictos" id="pictos" hidden></div>
+
+      <div class="grid">
+        <article class="panel" id="panel-danger">
+          <span class="label">Danger · CLP / ADR</span>
+          <dl id="danger-dl"></dl>
+          <ul class="phrases" id="h-phrases"></ul>
+          <ul class="phrases quiet" id="p-phrases"></ul>
+        </article>
+        <article class="panel" id="panel-quality">
+          <span class="label">Qualité · COA</span>
+          <dl id="quality-dl"></dl>
+          <table class="specs" id="specs" hidden>
+            <thead><tr><th>Paramètre</th><th>Statut</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </article>
+        <article class="panel" id="panel-logistics">
+          <span class="label">Logistique · BL</span>
+          <dl id="logistics-dl"></dl>
+        </article>
+        <article class="panel" id="panel-equipment">
+          <span class="label">Équipement · plaque</span>
+          <dl id="equipment-dl"></dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="json-block">
+      <div class="json-head">
+        <span class="label">JSON</span>
+        <button type="button" class="chip ghost" data-copy>Copier</button>
+      </div>
+      <pre id="json">{}</pre>
+    </section>
+
+    <p class="note legal">Documents et société fictifs, pour démonstration. Mentions H/P&nbsp;: extraits du règlement CLP. Pictogrammes GHS reproduits à titre informatif. Aucune valeur commerciale, aucune mise sur le marché.</p>
+
+    <section class="contact">
+      <nav class="links">
+        <a href="/">Accueil</a>
+        <a href="/cv/#ia">Parcours</a>
+        <a href="mailto:bonjour@mathieu-mont.fr">Contact</a>
+      </nav>
+    </section>
+  </main>
+
+  <dialog id="camera" class="camera">
+    <video id="cam-video" playsinline autoplay></video>
+    <div class="camera-bar">
+      <button type="button" class="chip primary" data-capture>Prendre la photo</button>
+      <button type="button" class="chip ghost" data-close-cam>Annuler</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="/releve/app.js"></script>
+</body>
+</html>

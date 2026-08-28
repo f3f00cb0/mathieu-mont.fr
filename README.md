@@ -29,6 +29,11 @@ Les pages vivent dans `public/`. Les styles communs sont dans `public/site.css`.
 - **Accueil** (`index.html`) : une carte de visite. La section « Sélection »
   contient des blocs `<a class="work">` à garder, supprimer ou dupliquer.
   L'ordre des blocs = l'ordre d'affichage.
+- **Relève** (`releve/`) : démo d'extraction documentaire (FDS, COA, BL,
+  plaque constructeur). Tout tourne dans le navigateur (pdf.js + Tesseract),
+  sans CDN. Les PDF d'exemple se régénèrent avec
+  `python3 scripts/generate-releve-samples.py`.
+  Parsers : `node scripts/test-releve-parsers.mjs`.
 - **Parcours** (`cv/index.html` / `cv-en/index.html`) : le CV long, dans la
   même direction visuelle. Les deux versions se tiennent à jour ensemble.
 
