@@ -10,6 +10,7 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 │   ├── index.html            # accueil (sélection)
 │   ├── cv/index.html         # parcours (FR)
 │   ├── cv-en/index.html      # CV (EN)
+│   ├── furan/index.html      # note de projet Furan
 │   ├── 404.html
 │   ├── site.css              # styles partagés
 │   └── fonts/                # Fraunces + IBM Plex Mono (.woff2, licence OFL)
@@ -31,6 +32,8 @@ Les pages vivent dans `public/`. Les styles communs sont dans `public/site.css`.
   L'ordre des blocs = l'ordre d'affichage.
 - **Parcours** (`cv/index.html` / `cv-en/index.html`) : le CV long, dans la
   même direction visuelle. Les deux versions se tiennent à jour ensemble.
+- **Furan** (`furan/index.html`) : le texte du projet. Le lien vers l'app
+  (`furan.run`) est sur cette page, pas sur l'accueil.
 
 ## Tester en local
 
