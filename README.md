@@ -9,6 +9,7 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 ├── public/                   # mathieu-mont.fr
 │   ├── index.html
 │   ├── cv/ · cv-en/
+│   ├── furan/index.html      # note de projet Furan
 │   └── fonts/
 ├── releve/                   # releve.mathieu-mont.fr (side project)
 │   ├── public/
@@ -17,7 +18,7 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 │   └── docker-compose.yml
 ├── nginx.conf
 ├── Dockerfile
-└── docker-compose.yml        # PROD Dokploy : portfolio + Relève
+└── docker-compose.yml        # PROD Dokploy : portfolio
 ```
 
 ## Modifier le site
@@ -32,6 +33,8 @@ Les pages vivent dans `public/`. Les styles communs sont dans `public/site.css`.
   Le portfolio ne fait que pointer dessus. Détail : `releve/README.md`.
 - **Parcours** (`cv/index.html` / `cv-en/index.html`) : le CV long, dans la
   même direction visuelle. Les deux versions se tiennent à jour ensemble.
+- **Furan** (`furan/index.html`) : le texte du projet. Le lien vers l'app
+  (`furan.run`) est sur cette page, pas sur l'accueil.
 
 ## Tester en local
 
