@@ -1,5 +1,5 @@
-# Compose de DÉVELOPPEMENT local (sans Traefik / Dokploy).
-# Lance le site sur http://localhost:8080
+# Lance le portfolio sur http://localhost:8080
+# et Relève sur http://localhost:8081
 #
 #   docker compose -f docker-compose.local.yml up --build
 #
@@ -10,4 +10,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    restart: unless-stopped
+  releve:
+    build:
+      context: ./releve
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
     restart: unless-stopped

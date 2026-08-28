@@ -6,21 +6,19 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 
 ```
 .
-├── public/
-│   ├── index.html            # accueil (sélection)
-│   ├── cv/index.html         # parcours (FR)
-│   ├── cv-en/index.html      # CV (EN)
+├── public/                   # mathieu-mont.fr
+│   ├── index.html
+│   ├── cv/ · cv-en/
 │   ├── furan/index.html      # note de projet Furan
-│   ├── 404.html
-│   ├── site.css              # styles partagés
-│   └── fonts/                # Fraunces + IBM Plex Mono (.woff2, licence OFL)
-├── nginx.conf                # config nginx : gzip, cache, en-têtes de sécurité, /health
-├── Dockerfile                # nginx:alpine + le contenu de public/
-├── docker-compose.yml        # PROD : à utiliser dans Dokploy
-├── docker-compose.local.yml  # DEV  : test local sur http://localhost:8080
-├── .dockerignore
-├── .gitignore
-└── .editorconfig
+│   └── fonts/
+├── releve/                   # releve.mathieu-mont.fr (side project)
+│   ├── public/
+│   ├── nginx.conf
+│   ├── Dockerfile
+│   └── docker-compose.yml
+├── nginx.conf
+├── Dockerfile
+└── docker-compose.yml        # PROD Dokploy : portfolio
 ```
 
 ## Modifier le site
@@ -30,6 +28,9 @@ Les pages vivent dans `public/`. Les styles communs sont dans `public/site.css`.
 - **Accueil** (`index.html`) : une carte de visite. La section « Sélection »
   contient des blocs `<a class="work">` à garder, supprimer ou dupliquer.
   L'ordre des blocs = l'ordre d'affichage.
+- **Relève** (`releve/`) : side project à part, comme Furan. Adresse
+  `https://releve.mathieu-mont.fr/` (DNS A/AAAA `releve` vers le serveur).
+  Le portfolio ne fait que pointer dessus. Détail : `releve/README.md`.
 - **Parcours** (`cv/index.html` / `cv-en/index.html`) : le CV long, dans la
   même direction visuelle. Les deux versions se tiennent à jour ensemble.
 - **Furan** (`furan/index.html`) : le texte du projet. Le lien vers l'app
@@ -41,13 +42,21 @@ Avec Docker :
 
 ```bash
 docker compose -f docker-compose.local.yml up --build
-# puis http://localhost:8080
+# portfolio : http://localhost:8080
+# Relève    : http://localhost:8081
 ```
 
 Sans Docker, n'importe quel serveur statique fait l'affaire :
 
 ```bash
 cd public && python3 -m http.server 8080
+```
+
+Pour Relève seul, avec les en-têtes CSP/caméra :
+
+```bash
+python3 scripts/serve-local.py
+# http://127.0.0.1:8081/
 ```
 
 ## Déployer sur Dokploy
@@ -72,6 +81,15 @@ expose le port 80 en interne ; Traefik s'occupe du HTTPS.
 > `dokploy-network`, puis ajoute le domaine depuis l'onglet **Domains** du
 > service dans Dokploy (port 80). N'utilise pas les deux méthodes en même temps,
 > elles se marcheraient dessus.
+
+## Relève (deuxième compose Dokploy)
+
+Même serveur, autre hostname — comme Furan. DNS : `releve.mathieu-mont.fr`
+en A/AAAA vers l’IP. Puis **Create → Compose**, Compose Path :
+`releve/docker-compose.yml`. Détail dans `releve/README.md`.
+
+Un nom à toi (`releve.run`, etc.) : change le `Host` dans
+`releve/docker-compose.yml` et le canonical dans `releve/public/index.html`.
 
 ## Mettre à jour le site
 

@@ -1,0 +1,68 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2837 >>
+stream
+0.120 g 0.0 812.0 595.0 30.0 re f 0 g
+BT /F2 10.0 Tf 48.0 822.0 Td (GIER CHIMIE SAS  —  Laboratoire contrôle qualité) Tj ET
+BT /F1 8.0 Tf 430.0 822.0 Td (Document fictif) Tj ET
+BT /F2 16.0 Tf 48.0 788.0 Td (CERTIFICAT D'ANALYSE) Tj ET
+BT /F1 10.0 Tf 48.0 768.0 Td (Certificate of Analysis \(COA\)) Tj ET
+0.80 w 48.0 676.0 499.0 78.0 re S
+BT /F1 9.5 Tf 48.0 746.0 Td (Produit : ESTERA-42) Tj ET
+BT /F1 9.5 Tf 48.0 732.5 Td (N° CAS principal : 141-78-6 \(acétate d'éthyle\)) Tj ET
+BT /F1 9.5 Tf 48.0 719.0 Td (N° de lot : L26-0847) Tj ET
+BT /F1 9.5 Tf 48.0 705.5 Td (Date de fabrication : 18/08/2026     Date d'analyse : 19/08/2026) Tj ET
+BT /F1 9.5 Tf 48.0 692.0 Td (Date de recontrôle : 18/08/2028) Tj ET
+BT /F1 9.5 Tf 48.0 678.5 Td (Quantité : 800 kg \(4 fûts 200 L\)) Tj ET
+BT /F2 11.0 Tf 48.0 649.0 Td (Résultats d'analyse) Tj ET
+0.80 w 48.0 642.0 m 547.0 642.0 l S
+BT /F2 8.0 Tf 48.0 628.0 Td (Paramètre                 Méthode           Spécification        Résultat      Statut) Tj ET
+BT /F1 8.0 Tf 48.0 616.0 Td (Aspect                    visuel            incolore, limpide   conforme      CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 604.0 Td (Masse volumique 20 °C     ISO 12185         0,830 - 0,850       0,842 g/cm3   CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 592.0 Td (Indice de réfraction      ASTM D1218        1,370 - 1,378       1,373         CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 580.0 Td (Teneur acétate d'éthyle   GC-FID interne    55 - 65 % \(p/p\)     61,2 %        CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 568.0 Td (Teneur propane-2-ol       GC-FID interne    20 - 30 % \(p/p\)     24,8 %        CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 556.0 Td (Eau \(Karl Fischer\)        ISO 760           <= 0,10 %           0,04 %        CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 544.0 Td (Couleur APHA              ISO 6271          <= 15               6             CONFORME) Tj ET
+BT /F1 8.0 Tf 48.0 532.0 Td (Point d'éclair            ISO 13736         <= 0 °C             -4 °C         CONFORME) Tj ET
+BT /F2 11.0 Tf 48.0 506.0 Td (Conclusion) Tj ET
+0.80 w 48.0 499.0 m 547.0 499.0 l S
+BT /F1 9.5 Tf 48.0 487.0 Td (Le lot L26-0847 d'ESTERA-42 est CONFORME aux spécifications de vente en vigueur \(cahier des) Tj ET
+BT /F1 9.5 Tf 48.0 473.5 Td (charges CDC-ESTERA-42-2026\). Pas de déviation. Libération autorisée.) Tj ET
+BT /F1 9.5 Tf 48.0 452.0 Td (Spécifications liées à la FDS version 3.1 \(classification CLP inchangée\).) Tj ET
+BT /F1 9.5 Tf 48.0 438.5 Td (N° CE acétate d'éthyle : 205-500-4) Tj ET
+BT /F1 9.5 Tf 48.0 409.0 Td (Laboratoire : Saint-Chamond CQ-02) Tj ET
+BT /F1 9.5 Tf 48.0 395.5 Td (Analyste : M. Faure     Visa libération : C. Roux) Tj ET
+BT /F1 9.5 Tf 48.0 382.0 Td (Méthode de référence interne : CQ-GC-14 / CQ-KF-02) Tj ET
+BT /F1 8.0 Tf 48.0 348.5 Td (Document fictif  —  démonstration d'extraction. Aucune valeur commerciale.) Tj ET
+
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000212 00000 n 
+0000000314 00000 n 
+0000003203 00000 n 
+trailer << /Size 7 /Root 1 0 R >>
+startxref
+3339
+%%EOF
