@@ -2,7 +2,6 @@ import { detectKind } from "./js/detect.js";
 import { parseByKind } from "./js/parse.js";
 import { emptyDossier, mergePatch, dossierToJson } from "./js/dossier.js";
 import { ghsLabel, ghsSvg } from "./js/pictos.js";
-import { pdfToText } from "./js/pdf-text.js";
 
 const SAMPLES = {
   fds: { name: "FDS Estera-42.pdf", url: "./samples/fds-estera-42.pdf", fileKind: "pdf" },
@@ -195,6 +194,7 @@ async function ingest({ name, fileKind, buffer, blob, url }) {
   setStatus(fileKind === "image" ? "OCR de la plaque…" : `Lecture de ${name}…`);
   let text = "";
   if (fileKind === "pdf") {
+    const { pdfToText } = await import("./js/pdf-text.js");
     text = await pdfToText(buffer);
   } else {
     const { ocrImage } = await import("./js/ocr.js");

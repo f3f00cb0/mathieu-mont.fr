@@ -1,6 +1,6 @@
-import { getDocument, GlobalWorkerOptions } from "../vendor/pdf.mjs";
+import { getDocument, GlobalWorkerOptions } from "../vendor/pdf.js";
 
-GlobalWorkerOptions.workerSrc = new URL("../vendor/pdf.worker.min.mjs", import.meta.url).href;
+GlobalWorkerOptions.workerSrc = new URL("../vendor/pdf.worker.min.js", import.meta.url).href;
 
 export async function pdfToText(data) {
   const pdf = await getDocument({
