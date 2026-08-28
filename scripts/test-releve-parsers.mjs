@@ -1,6 +1,6 @@
-import { detectKind } from "../public/releve/js/detect.js";
-import { parseBl, parseCoa, parseFds, parseNameplate } from "../public/releve/js/parse.js";
-import { emptyDossier, mergePatch, dossierToJson } from "../public/releve/js/dossier.js";
+import { detectKind } from "../releve/public/js/detect.js";
+import { parseBl, parseCoa, parseFds, parseNameplate } from "../releve/public/js/parse.js";
+import { emptyDossier, mergePatch, dossierToJson } from "../releve/public/js/dossier.js";
 
 const FDS = `
 FICHE DE DONNÉES DE SÉCURITÉ

@@ -11,7 +11,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "public" / "releve" / "samples"
+OUT = ROOT / "releve" / "public" / "samples"
 A4 = (595, 842)
 
 
