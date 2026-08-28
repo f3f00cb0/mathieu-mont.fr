@@ -13,11 +13,12 @@ export function parseFds(text) {
     "";
   const ufI = matchLine(src, /\bUFI\s*:\s*([A-Z0-9-]{12,})/i);
   const signalWord = (src.match(/mention\s+d['’]?avertissement\s*:\s*(DANGER|ATTENTION)/i) || [])[1] || "";
+  const labeling = src.split(/RUBRIQUE\s+3\b/i)[0];
   const pictograms = unique([
-    ...(src.match(/\bGHS0[1-9]\b/gi) || []).map((s) => s.toUpperCase()),
+    ...(labeling.match(/\bGHS0[1-9]\b/gi) || []).map((s) => s.toUpperCase()),
   ]);
-  const hCodes = findCodes(src, "H");
-  const pCodes = findCodes(src, "P");
+  const hCodes = findCodes(labeling, "H");
+  const pCodes = findCodes(labeling, "P");
   const hPhrases = hCodes.map((code) => ({ code, text: phraseText(code) || lineFor(src, code) }));
   const pPhrases = pCodes.map((code) => ({ code, text: phraseText(code) || lineFor(src, code) }));
   if (!pictograms.length) pictograms.push(...pictosFromH(hCodes));
@@ -86,7 +87,7 @@ export function parseBl(text) {
     packaging: matchLine(src, /conditionnement\s*:\s*(.+)/i),
     netWeight: matchLine(src, /quantit[ée]\s+nette\s*:\s*([^]+?)(?:poids|$)/i),
     grossWeight: matchLine(src, /poids\s+brut\s*:\s*(.+)/i),
-    destination: matchLine(src, /destinataire[\s\S]{0,40}\n([^\n]+)/i),
+    destination: matchLine(src, /destinataire\s*[:：]?\s*\n?\s*([^\n]+)/i),
     unNumber: findUn(src),
     packingGroup: findPackingGroup(src),
     adrClass: matchLine(src, /classe\s+ADR\s*:\s*([0-9.]+)/i),
@@ -96,42 +97,64 @@ export function parseBl(text) {
   };
 }
 
+const PLATE_LABELS = new Set([
+  "CONSTRUCTEUR", "TYPE", "SERIE", "ANNEE", "ANNÉE", "NORME", "PUISSANCE",
+  "TENSION", "FREQUENCE", "FRÉQUENCE", "VITESSE", "INDICE", "IP", "MARQUAGE",
+  "ATEX", "IECEX", "CERTIFICAT", "MASSE", "MOTEUR", "POMPE",
+]);
+
+function isPlateLabel(value) {
+  const token = String(value).toUpperCase().replace(/[.:]/g, "").trim();
+  return PLATE_LABELS.has(token) || PLATE_LABELS.has(token.split(/\s+/)[0]);
+}
+
 export function parseNameplate(text) {
   const src = normalize(text).replace(/[|]/g, " ");
-  const type = firstMatch(src, [
-    /\bTYPE\s*[:.\s]+([A-Z0-9][A-Z0-9./-]{2,})/i,
+  const type = pickValue(src, [
     /\bLS-\d{2,4}[A-Z]?(?:-\d)?\b/,
+    /\bTYPE\s*[:.\s]+([A-Z0-9][A-Z0-9./-]{2,})/i,
   ]);
-  const serial = firstMatch(src, [
+  const serial = pickValue(src, [
+    /\b20\d{2}-[A-Z]{2,5}-\d+\b/,
     /\bN\.?\s*SERIE\s*[:.\s]+([A-Z0-9][A-Z0-9./-]{4,})/i,
     /\bN[°o]?\s*S[EÉ]RIE\s*[:.\s]+([A-Z0-9][A-Z0-9./-]{4,})/i,
     /\bS\/N\s*[:.\s]+([A-Z0-9.-]{4,})/i,
-    /\b20\d{2}-[A-Z]{2,5}-\d+\b/,
   ]);
   const atex = firstMatch(src, [
     /\bII\s*2\s*G\s*Ex\s+[A-Za-z]+\s+IIC\s+T\d\s+Gb\b/i,
     /\bEx\s+d[b]?e?\s+IIC\s+T\d\b/i,
   ]);
+  const manufacturer = pickValue(src, [
+    /\bLSM\s+INDUSTRIE\b/i,
+    /CONSTRUCTEUR\s*[:.\s]+([A-Z][A-Z0-9 .&-]{2,}?)(?=\s{2,}|\n|PUISSANCE|TYPE|$)/i,
+  ]);
   return {
     kind: "nameplate",
-    manufacturer: firstMatch(src, [
-      /CONSTRUCTEUR\s*[:.\s]+([A-Z][A-Z0-9 .&-]{2,})/i,
-      /\bLSM\s+INDUSTRIE\b/i,
-    ]),
-    equipment: firstMatch(src, [/MOTEUR[^\n]{0,40}/i, /POMPE[^\n]{0,40}/i]) || "",
+    manufacturer,
+    equipment: firstMatch(src, [/\bMOTEUR[^\n]{0,40}/i, /\bPOMPE[^\n]{0,40}/i]) || "",
     type,
     serial,
     year: firstMatch(src, [/\bANN[EÉ]E\s*[:.\s]+(20\d{2})\b/i, /\b(20[12]\d)\b/]),
-    standard: firstMatch(src, [/\bNORME\s*[:.\s]+(IEC\s*[\d-]+)/i, /\bIEC\s*[\d-]+\b/i]),
-    power: firstMatch(src, [/\bPUISSANCE\s*[:.\s]+([\d,.]+\s*kW)/i, /\b([\d,.]+\s*kW)\b/i]),
-    voltage: firstMatch(src, [/\bTENSION\s*[:.\s]+([\d]+\s*V)/i, /\b(\d{3,4}\s*V)\b/i]),
-    frequency: firstMatch(src, [/\bFR[EÉ]QUENCE\s*[:.\s]+([\d]+\s*Hz)/i, /\b(50\s*Hz)\b/i]),
-    speed: firstMatch(src, [/\bVITESSE\s*[:.\s]+([\d]+\s*min-?1)/i, /\b(\d{3,5}\s*min-?1)\b/i]),
-    ip: firstMatch(src, [/\bINDICE\s*IP\s*[:.\s]+(IP\s*\d{2})/i, /\bIP\s*\d{2}\b/i]),
+    standard: firstMatch(src, [/\bIEC\s*[\d-]+\b/i]),
+    power: firstMatch(src, [/\b([\d]+(?:[.,]\d+)?\s*kW)\b/i]),
+    voltage: firstMatch(src, [/\b(\d{3,4}\s*V)\b/i]),
+    frequency: firstMatch(src, [/\b(\d{2}\s*Hz)\b/i]),
+    speed: firstMatch(src, [/\b(\d{3,5}\s*min-?1)\b/i]),
+    ip: firstMatch(src, [/\bIP\s*\d{2}\b/i]),
     atex: atex ? atex.replace(/\s+/g, " ").trim() : "",
-    certificate: firstMatch(src, [/\bCERTIFICAT\s+([A-Z0-9][A-Z0-9 /-]{6,})/i]),
-    mass: firstMatch(src, [/\bMASSE\s*[:.\s]*([\d.,]+\s*kg)/i, /\b([\d.,]+\s*kg)\b/i]),
+    certificate: firstMatch(src, [/\bINERIS\s+\d+\s+ATEX\s+[\dA-Z]+(?:\s+X)?/i]),
+    mass: firstMatch(src, [/\b([\d.,]+\s*kg)\b/i]),
   };
+}
+
+function pickValue(text, regexes) {
+  for (const re of regexes) {
+    const m = text.match(re);
+    if (!m) continue;
+    const value = (m[1] || m[0]).replace(/\s+/g, " ").trim();
+    if (value && !isPlateLabel(value)) return value;
+  }
+  return "";
 }
 
 export function parseByKind(kind, text) {

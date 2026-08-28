@@ -123,7 +123,31 @@ assert(plate.type === "LS-180M-4", `type ${plate.type}`);
 assert(plate.serial === "2024-STE-11847", `sn ${plate.serial}`);
 assert(/Ex db IIC T4/i.test(plate.atex), `atex ${plate.atex}`);
 assert(plate.ip.replace(/\s/g, "") === "IP55", `ip ${plate.ip}`);
-assert(plate.power.includes("18"), `kW ${plate.power}`);
+const PLATE_COLUMNS = `
+LSM INDUSTRIE
+MOTEUR ASYNCHRONE TRIPHASE
+CONSTRUCTEUR PUISSANCE
+LSM INDUSTRIE 18,5 kW
+TYPE TENSION
+LS-180M-4 400 V
+N. SERIE FREQUENCE
+2024-STE-11847 50 Hz
+ANNEE VITESSE
+2024 1465 min-1
+NORME INDICE IP
+IEC 60034-1 IP55
+II 2 G Ex db IIC T4 Gb
+CERTIFICAT INERIS 24 ATEX 3084 X
+MASSE 148 kg
+`;
+
+const plateCols = parseNameplate(PLATE_COLUMNS);
+assert(plateCols.manufacturer.includes("LSM"), `col mfr ${plateCols.manufacturer}`);
+assert(plateCols.type === "LS-180M-4", `col type ${plateCols.type}`);
+assert(plateCols.serial === "2024-STE-11847", `col sn ${plateCols.serial}`);
+assert(plateCols.power.includes("18"), `col kW ${plateCols.power}`);
+assert(!/^TENSION$/i.test(plateCols.type), "type is not a label");
+assert(!/^FREQUENCE$/i.test(plateCols.serial), "serial is not a label");
 
 let dossier = emptyDossier();
 dossier = mergePatch(dossier, fds, { id: "1", name: "fds.pdf" });
