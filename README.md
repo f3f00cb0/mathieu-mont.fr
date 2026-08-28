@@ -7,7 +7,11 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 ```
 .
 ├── public/
-│   ├── index.html            # le site (à éditer librement)
+│   ├── index.html            # accueil (sélection)
+│   ├── cv/index.html         # parcours (FR)
+│   ├── cv-en/index.html      # CV (EN)
+│   ├── 404.html
+│   ├── site.css              # styles partagés
 │   └── fonts/                # Fraunces + IBM Plex Mono (.woff2, licence OFL)
 ├── nginx.conf                # config nginx : gzip, cache, en-têtes de sécurité, /health
 ├── Dockerfile                # nginx:alpine + le contenu de public/
@@ -20,12 +24,13 @@ Site personnel statique, servi par nginx dans un conteneur, prêt pour un déplo
 
 ## Modifier le site
 
-Tout se passe dans `public/index.html`. La section « Sélection » contient des
-blocs `<a class="work">` à garder, supprimer ou dupliquer selon ce que tu veux
-mettre en avant. L'ordre des blocs = l'ordre d'affichage.
+Les pages vivent dans `public/`. Les styles communs sont dans `public/site.css`.
 
-Pense à remplacer l'adresse mail placeholder `bonjour@mathieu-mont.fr` et les
-trois liens du bas.
+- **Accueil** (`index.html`) : une carte de visite. La section « Sélection »
+  contient des blocs `<a class="work">` à garder, supprimer ou dupliquer.
+  L'ordre des blocs = l'ordre d'affichage.
+- **Parcours** (`cv/index.html` / `cv-en/index.html`) : le CV long, dans la
+  même direction visuelle. Les deux versions se tiennent à jour ensemble.
 
 ## Tester en local
 
@@ -68,8 +73,8 @@ expose le port 80 en interne ; Traefik s'occupe du HTTPS.
 ## Mettre à jour le site
 
 Commit + push, puis **Redeploy** dans Dokploy (ou active l'auto-deploy sur push).
-Le HTML n'est pas mis en cache dur côté nginx, la mise à jour est donc visible
-immédiatement après redéploiement.
+Le HTML et le CSS ne sont pas mis en cache dur côté nginx, la mise à jour est
+donc visible immédiatement après redéploiement.
 
 ## Polices (auto-hébergées, RGPD-friendly)
 
@@ -80,4 +85,4 @@ externe, aucun transfert d'IP vers Google : c'est propre côté RGPD et la CSP d
 `nginx.conf` interdit d'ailleurs toute source externe.
 
 Pour changer de police : remplace les `.woff2` dans `public/fonts/`, ajuste les
-règles `@font-face` en tête de `public/index.html`, et c'est tout.
+règles `@font-face` dans `public/site.css`, et c'est tout.
