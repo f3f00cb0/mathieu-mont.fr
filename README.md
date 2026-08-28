@@ -52,6 +52,12 @@ Sans Docker, n'importe quel serveur statique fait l'affaire :
 cd public && python3 -m http.server 8080
 ```
 
+Pour tester Relève avec les mêmes en-têtes CSP/caméra que nginx :
+
+```bash
+python3 scripts/serve-local.py
+```
+
 ## Déployer sur Dokploy
 
 Prérequis : une instance Dokploy en place, et le DNS du domaine
