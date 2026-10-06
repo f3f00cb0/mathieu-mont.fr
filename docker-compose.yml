@@ -1,0 +1,19 @@
+# Production compose for Coolify.
+#
+# Coolify runs:
+#   docker compose -p <project> -f ./docker-compose.yml up -d --build --remove-orphans
+#
+# Service name `web` and container port 80 match the previous deploy.
+# No host port is published: the proxy reaches nginx inside the container.
+# No custom network: Coolify attaches its own. The old Dokploy network
+# is not available here and would make `up` fail.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mathieu-mont-fr:latest
+    restart: unless-stopped
+    expose:
+      - "80"

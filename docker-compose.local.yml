@@ -1,0 +1,14 @@
+# Local preview of the new site: http://localhost:8080
+#
+#   docker compose -f docker-compose.local.yml up --build
+#
+# The archived Relève stack stays in old/releve/ and is not started here.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: unless-stopped
